@@ -30,7 +30,7 @@ contract UniswapV2Migrator is IUniswapV2Migrator {
         require(exchangeV1.transferFrom(msg.sender, address(this), liquidityV1), 'TRANSFER_FROM_FAILED');
         (uint amountETHV1, uint amountTokenV1) = exchangeV1.removeLiquidity(liquidityV1, 1, 1, uint(-1));
         TransferHelper.safeApprove(token, address(router), amountTokenV1);
-        (uint amountTokenV2, uint amountETHV2,) = router.addLiquidityETH{value: amountETHV1}(
+        (uint amountTokenV2, uint amountETHV2,) = router.addLiquidityETH{value: uint128(amountETHV1)}(
             token,
             amountTokenV1,
             amountTokenMin,
